@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>My Blog Login</h1>
+<h1>Login to Florentin's Blog</h1>
+
 <form action="" method="POST">{% csrf_token %}
   {{ form.as_p }}
   <p><input type="submit" value="Log In"></p>
 </form>
+
+<p><a href="{% url 'password_change' %}">password_change<sup><a href="#note1"> 1</a></sup></a></p>
+<p><strong>Footnotes:</strong></p>
+<p id="note1"><sup>1</sup>If you select to change password, then
+when loging in you'll be asked to change it. If sucessfull, you'll
+receive a confirmation message with the ability to return to the login page</p>
+
 {% endblock %}

@@ -2,16 +2,20 @@
 
 # imports
 from django.shortcuts import render
-from django.http import HttpResponse, Http404  #,HttpResponseRedirect
+from django.http import Http404  # HttpResponse, HttpResponseRedirect
+# from django.template import loader
 
-from django.template import loader
+from django.views.generic.edit import UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 from blogging.models import Post
 # ------------------------------------
+
 
 def list_view(request):
     """ list view """
     published = Post.objects.exclude(published_date__exact=None)
-    posts = published.order_by('-published_date')
+    posts = published.order_by('published_date')
     context = {'posts': posts}
     # template = loader.get_template('blogging/list.html')
     # body = template.render(context)
@@ -30,17 +34,17 @@ def detail_view(request, post_id):
 # --------------------------------------
 
 
+class PostUpdateView(UpdateView):
+    """ update post """
+    model = Post
+    template_name = 'post_edit.html'
+    fields = ['title', 'text', 'published_date']
+ 
 
-#def stub_view(request, *args, **kwargs):
-#    """ page view """
-#    body = "Stub View\n\n"
-#
-#    if args:
-#        body += "Args:\n"
-#        body += "\n".join(["\t%s" % a for a in args])
-#    if kwargs:
-#        body += "Kwargs:\n"
-#        body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
-#   
-#    return HttpResponse(body, content_type="text/plain")
-
+class PostDeleteView(DeleteView):
+    """ delete post """
+    model = Post
+    template_name = 'post_delete.html'
+    success_url = reverse_lazy('blog_index')
+    
+# --------------------------------------

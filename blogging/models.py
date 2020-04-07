@@ -1,5 +1,9 @@
+""" blogging/models.py script """
+
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -12,7 +16,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
+    
+    def get_absolute_url(self):
+        return reverse("blog_detail", args=[str(self.id)])
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
@@ -24,4 +30,3 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
-

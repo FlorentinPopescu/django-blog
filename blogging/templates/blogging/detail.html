@@ -2,17 +2,26 @@
 
 {% block content %}
 <a class="backlink" href="/">Home</a>
+
 <h1>{{ post }}</h1>
+
 <p class="byline">
   Posted by {{ post.author.username }} &mdash; {{ post.published_date }}
 </p>
+
 <div class="post-body">
   {{ post.text }}
 </div>
+
 <ul class="categories">
   {% for category in post.categories.all %}
-    <li>{{ category }}</li>
+    <li><b><font color="green">Category: </font></b>{{ category }}</li>
   {% endfor %}
 </ul>
+
+
+<a href="{% url 'post_edit' post.pk %}"><font color="red">+Edit Post</font></a>
+<p><a href="{% url 'post_delete' post.pk %}"><font color="red">+Delete Post</font></a></p>
+  
 {% endblock content %}
 
