@@ -16,25 +16,35 @@ Including another URLconf
 #imports
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from blogging.views import SignupPageView
 # -----------------------------------
-
+ 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('polling/', include('polling.urls')),
+    # 'admin/' changed to 'fadmin/' to improve admin security
+    path('fadmin/', admin.site.urls),
     
-    path('login/', LoginView.as_view(template_name='login.html'), name="login"),
+    # user management
+    path('accounts/', include('allauth.urls')),
+    
+    # local apps
+    path('', include('blogging.urls')),
+    
+    # signup
+    path('signup/', SignupPageView.as_view(), name="signup"),
+        
+    # login & logout
+    path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page='/'), name="logout"),
     
+    # password management    
     path('password_change/',
          PasswordChangeView.as_view(template_name='password_change_form.html'),
          name="password_change"),
-    
     path('password_change/done/',
          PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
          name="password_change_done"),
-    
-    path('', include('blogging.urls')),
     ]

@@ -72,3 +72,12 @@ ul.categories {
 ul.categories li {
     display: inline;
 }
+
+.img {
+    height: 150px;
+    width: auto;
+}
+
+ul.reviews {
+    list-style-type: square;
+}

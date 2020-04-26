@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<a class="backlink" href="/">Home</a>
+{% if user.is_authenticated %}
+   <div class="level-item">
+      <a href="{% url 'post_edit' post.pk %}"><font color="red">Edit Post</font></a>
+   </div>
+   <div class="level-item">
+      <p><a href="{% url 'post_delete' post.pk %}"><font color="red">Delete Post</font></a></p>
+   </div>
+{% endif %}
 
 <h1>{{ post }}</h1>
 
@@ -19,9 +26,13 @@
   {% endfor %}
 </ul>
 
+<ul class="reviews">
+  {% for review in post.reviews.all %}
+    <li>{{ review.review }}: ({{ review.author }})</li>
+  {% endfor %}
+</ul>
 
-<a href="{% url 'post_edit' post.pk %}"><font color="red">+Edit Post</font></a>
-<p><a href="{% url 'post_delete' post.pk %}"><font color="red">+Delete Post</font></a></p>
-  
+
+<a class="backlink" href="/">Home</a>
 {% endblock content %}
 

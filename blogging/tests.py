@@ -6,18 +6,44 @@ from django.utils.timezone import utc
 
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 # from django.contrib.auth import get_user_model
-# from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 from blogging.models import Post, Category
 # -----------------------------------------
 
 
 class SimpleTest(TestCase):
-    """ tests if the page actually exists """
+    """ simple tests """
+    def setUp(self):
+        url = reverse('blog_index')
+        self.response = self.client.get(url)
+        
     def test_list_view_status_code(self):
+        """ test list view """
+        
+        # user = get_object_or_404(UserSocialAuth, provider ='facebook')
+        # print("USERRRRUUUU", user)
+        
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
+        
+    def test_list_view_template(self):
+        """ test that response is base.html """
+        self.assertTemplateUsed(self.response, 'base.html')
+        
+    def test_contains_correct_html(self):
+        """ test redirect to base page view """
+        self.assertContains(self.response, '/')
+        
+    def test_does_not_contain_incorrect_html(self):
+        """ test no weird stuff on webpage """
+        self.assertNotContains(
+            self.response, 'agsnefg123lnbk1lbnkb2kjbkbkbk233')
+
+
 # -----------------------------------------
 
 
@@ -50,7 +76,6 @@ class PostTestCase(TestCase):
         """ test post detail view"""
         no_response = self.client.get("/posts/100000/")
         self.assertEqual(no_response.status_code, 404)
-        
 # -----------------------------------------
 
     
@@ -111,3 +136,23 @@ class FrontEndTestCase(TestCase):
                 self.assertContains(resp, title)
             else:
                 self.assertEqual(resp.status_code, 404)
+# -----------------------------------------
+
+
+# class SignupPageTests(TestCase):
+
+#     def setUp(self):
+#         url = reverse('signup')
+#         self.response = self.client.get(url)
+
+#     def test_account_signup(self):
+#         self.assertEqual(self.response.status_code, 200)
+#         #self.assertTemplateUsed(self.response, 'signup.html')
+#         self.assertContains(self.response, 'sign up')
+#         self.assertNotContains(
+#             self.response, 'agsnefg123lnbk1lbnkb2kjbkbkbk233')
+
+#     def test_signup_form(self): 
+#         form = self.response.context.get('form')
+#         self.assertIsInstance(form, CustomUserCreationForm)
+#         self.assertContains(self.response, 'csrfmiddlewaretoken')

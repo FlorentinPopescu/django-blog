@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Florentin's Posts</h1>
+  <h1>Posts</h1>
 
   {% comment %} here is where the query happens {% endcomment %}
   
@@ -25,7 +25,14 @@
       {% endfor %}
     </ul>
   </div>
-  
+  <div>
+    <p><b><font color="violet"> Reviews: </font></b><p>
+    <ul class="reviews">
+      {% for review in post.reviews.all %}
+        <li>{{ review.review }}: ({{ review.author }})</li>
+      {% endfor %}
+    </ul>
+  </div>
   {% endfor %}
 
 {% endblock content %}
