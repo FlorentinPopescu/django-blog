@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,18 +21,15 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', default='development')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ovwo#wkmqz()on6t)6!wlv=(*8x@468&y(@vz1ms6dtam&hmdu'
-# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'ovwo#wkmqz()on6t)6!wlv=(*8x@468&y(@vz1ms6dtam&hmdu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = int(os.environ.get('DEBUG', default=0))
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [".facebook.com", "localhost", "127.0.0.1"]
+# ALLOWED_HOSTS = [] #["*"]
+ALLOWED_HOSTS = [".facebook.com", "localhost", "127.0.0.1", 'python230-ubuntu012.westus.cloudapp.azure.com']
 # ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS"), "localhost"]
 # ==============================================================
-
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,17 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
 
-    'blogging.apps.BloggingConfig', 
+    'blogging.apps.BloggingConfig',
     ]
 
 ACCOUNT_SESSION_REMEMBER = True
-
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 
 # middleware
@@ -91,8 +86,8 @@ TEMPLATES = [
 
 
 # account authentication method
-ACCOUNT_EMAIL_REQUIRED=True
-ACCOUNT_USERNAME_REQURIED=True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
@@ -146,14 +141,14 @@ USE_TZ = True
 # static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # login
 LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/' 
+LOGOUT_REDIRECT_URL = '/'
 
 # authentification
 AUTHENTICATION_BACKENDS = (
